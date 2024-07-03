@@ -1,0 +1,141 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:data_sets.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="data_sets.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+		MinHeight="420"
+		MinWidth="620"
+		Width="860"
+		Height="420"
+        Title="data_sets">
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid RowDefinitions="*" >
+		<TabControl Grid.Row="0" VerticalAlignment="Stretch" Padding="10">
+			<TabItem Header="Load json" VerticalContentAlignment="Center">
+				<Grid RowDefinitions="170,auto">
+					<Grid ColumnDefinitions="*" Grid.Row="0" Grid.Column="0">
+						<TextBox Name="txt_curl_cmd" AcceptsReturn="True" Text="" TextWrapping="Wrap" />
+					</Grid>
+					<Grid Margin="0,20,0,0" RowDefinitions="*,*,*" Grid.Row="1">
+						<Grid Grid.Row="0"  ColumnDefinitions="auto,*,auto">
+							<TextBlock Margin="5" VerticalAlignment="Center"  Grid.Column="0">input path</TextBlock>
+							<TextBox Name="txt_input_path"  Margin="5" Grid.Column="1"></TextBox>
+							<Button Click="InputFileButtonClick" Margin="5" Grid.Column="2">...</Button>
+						</Grid>
+
+						<Grid Grid.Row="1"  ColumnDefinitions="auto,*,auto">
+							<TextBlock Margin="5" VerticalAlignment="Center"  Grid.Column="0">output path</TextBlock>
+							<TextBox Name="txt_output_path"  Margin="5" Grid.Column="1"></TextBox>
+							<Button Click="OutputFileButtonClick"  Margin="5" Grid.Column="2">...</Button>
+						</Grid>
+						<Grid Grid.Row="2"  ColumnDefinitions="auto,*,auto">
+							<TextBlock Margin="5" VerticalAlignment="Center"  Grid.Column="0">progress</TextBlock>
+							<ProgressBar  ShowProgressText="True" Foreground="Green" Name="pgr_curl" Grid.Column="1"></ProgressBar>
+							<Button Click="StartCurlCmdClick"  Margin="5" Grid.Column="2">start</Button>
+						</Grid>
+					</Grid>
+				</Grid>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock VerticalAlignment="Center">Extract data</TextBlock>
+				</TabItem.Header>
+				<StackPanel>
+					<Grid RowDefinitions="170,auto">
+						<Grid ColumnDefinitions="*" Grid.Row="0" Grid.Column="0">
+							<StackPanel>
+								<Border Background="Gainsboro"
+									  BorderBrush="Black"
+									  BorderThickness="1"
+									  CornerRadius="3"
+									  Padding="10" Margin="10">
+									<StackPanel Orientation="Horizontal">
+										<TextBlock Margin="10,0,0,0" VerticalAlignment="Center">choose type of data</TextBlock>
+										<ComboBox SelectionChanged="ComboboxChanged" Name="cmb_data_type" SelectedIndex="0" Margin="10,0,0,0" MaxDropDownHeight="100">
+											<ComboBoxItem>pe data</ComboBoxItem>
+											<ComboBoxItem>financial statements</ComboBoxItem>
+											<ComboBoxItem>yeild</ComboBoxItem>
+											<ComboBoxItem>last price</ComboBoxItem>
+										</ComboBox>
+									</StackPanel>
+								</Border>
+								<Border Background="Gainsboro"
+										BorderBrush="Black"
+										BorderThickness="1"
+										CornerRadius="3"
+										Padding="10" Margin="10">
+									<StackPanel Orientation="Horizontal" Spacing="10">
+										<TextBlock Margin="10,0,0,0" VerticalAlignment="Center">export to </TextBlock>
+										<RadioButton IsChecked="true" Name="rdo_sql">sql script</RadioButton>
+										<RadioButton Name="rdo_csv">csv data</RadioButton>
+									</StackPanel>
+								</Border>
+							</StackPanel>
+						</Grid>
+						<Grid Margin="0,5,0,0" RowDefinitions="*,*,*" Grid.Row="1">
+							<Grid Grid.Row="0"  ColumnDefinitions="auto,*,auto">
+								<TextBlock Margin="5" VerticalAlignment="Center"  Grid.Column="0">source json folder</TextBlock>
+								<TextBox Name="input_path"  Margin="5" Grid.Column="1"></TextBox>
+								<Button Click="InputSourceButtonClick" Margin="5" Grid.Column="2">...</Button>
+							</Grid>
+
+							<Grid Grid.Row="1"  ColumnDefinitions="auto,*,auto">
+								<TextBlock Margin="5" VerticalAlignment="Center"  Grid.Column="0">output path</TextBlock>
+								<TextBox Name="output_path"  Margin="5" Grid.Column="1"></TextBox>
+								<Button Click="outputDestButtonClick"  Margin="5" Grid.Column="2">...</Button>
+							</Grid>
+							<Grid Grid.Row="2"  ColumnDefinitions="auto,*,auto">
+								<TextBlock Margin="5" VerticalAlignment="Center"  Grid.Column="0">progress</TextBlock>
+								<ProgressBar  ShowProgressText="True" Foreground="Green" Name="pgr_extract" Grid.Column="1"></ProgressBar>
+								<Button Click="StartExtractDataClick" Margin="5" Grid.Column="2">start</Button>
+							</Grid>
+						</Grid>
+					</Grid>
+				</StackPanel>
+			</TabItem>
+			<TabItem>
+				<TabItem.Header>
+					<TextBlock VerticalAlignment="Center">About</TextBlock>
+				</TabItem.Header>
+				<StackPanel Orientation="Vertical" Spacing="10">
+					<StackPanel Spacing="5" Margin="10,0" Orientation="Vertical">
+						<TextBlock Text="1 go to url https://www.set.or.th/th/market/product/stock/quote/JAS/rights-benefits  " HorizontalAlignment="Left" />
+						<TextBlock Text="2 opent console and to to network tap  " HorizontalAlignment="Left" />
+						<TextBlock Text="3 right click copy value as curl and past in text area  " HorizontalAlignment="Left" />
+					</StackPanel>
+					
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="LasPrice URL : " HorizontalAlignment="Left" />
+						<TextBox Text="https://www.set.or.th/api/set/stock/JAS/related-product/o?lang=th"></TextBox>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Finan URL : " HorizontalAlignment="Left" />
+						<TextBox Text="https://www.set.or.th/api/set/stock/JAS/company-highlight/financial-data?lang=th"></TextBox>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="PE URL : " HorizontalAlignment="Left" />
+						<TextBox Text="https://www.set.or.th/api/set/stock/JAS/company-highlight/trading-stat?lang=th"></TextBox>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Yeild URL : " HorizontalAlignment="Left" />
+						<TextBox Text="https://www.set.or.th/api/set/stock/JAS/corporate-action?lang=th"></TextBox>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Good luck form std !!!  " HorizontalAlignment="Left" />
+						
+					</StackPanel>
+				</StackPanel>
+			</TabItem>
+		</TabControl>
+	</Grid>
+</Window>
