@@ -127,6 +127,7 @@ namespace data_sets.Views
                 string input_path = txt_input_path.Text;
                 string output_path = txt_output_path.Text;
                 string cookie = txt_curl_cmd.Text.Trim();
+                cookie = cookie.Replace("cookie","Cookie");
                 string[] readText = File.ReadAllLines(input_path);
                 pgr_curl.Minimum = 0;
                 pgr_curl.Maximum = (double)readText.Length;

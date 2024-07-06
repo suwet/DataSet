@@ -264,3 +264,4 @@ D:/Projects/stock-tools/data-set-tool/data_sets/obj/Debug/net6.0/ref/data_sets.d
 /media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/obj/Debug/net6.0/ref/data_sets.dll
 D:/Projects/stock-tools/data-set-tool/data_sets/bin/Debug/net6.0/Newtonsoft.Json.dll
 /media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/bin/Debug/net6.0/Newtonsoft.Json.dll
+/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/obj/Debug/net6.0/data_sets.sourcelink.json
