@@ -7,11 +7,13 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace data_sets.Views
@@ -124,10 +126,11 @@ namespace data_sets.Views
         {
             if (!string.IsNullOrEmpty(txt_input_path.Text))
             {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
                 string input_path = txt_input_path.Text;
                 string output_path = txt_output_path.Text;
                 string cookie = txt_curl_cmd.Text.Trim();
-                cookie = cookie.Replace("cookie","Cookie");
+                cookie = cookie.Replace("cookie","Cookie").Replace("curl","").TrimStart();
                 string[] readText = File.ReadAllLines(input_path);
                 pgr_curl.Minimum = 0;
                 pgr_curl.Maximum = (double)readText.Length;
@@ -138,13 +141,24 @@ namespace data_sets.Views
                     if (File.Exists(input_path) && string.IsNullOrEmpty(cookie) == false && cookie.Contains("Cookie") && cookie.Contains("https"))
                     {
                         double p = 1;
+                        Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
                         int startindex = cookie.IndexOf("Cookie:");
                         int toindex = cookie.LastIndexOf("-H");
                         string cookie_value = cookie.Substring(startindex + 7, (toindex - startindex) - 2);
-                        cookie_value = cookie_value.Substring(0, cookie_value.IndexOf("-H") - 1);
+                        int indexof = cookie_value.IndexOf("-H",90,StringComparison.CurrentCulture);
+                        cookie_value = cookie_value.Substring(0, indexof - 1);
                         startindex = cookie.IndexOf("https");
-                        toindex = cookie.IndexOf("\'", 30);
-                        string url = cookie.Substring(startindex, toindex - startindex);
+                        string url = string.Empty;
+                        if(cookie.StartsWith("\'"))
+                        {
+                            toindex = cookie.IndexOf("\'", 30);
+                            url = cookie.Substring(startindex, toindex - startindex);
+                        }
+                        else
+                        {
+                            toindex = cookie.IndexOf('"', 30);
+                            url = cookie.Substring(startindex, toindex - startindex);
+                        }
 
 
                         foreach (string s in readText)

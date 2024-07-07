@@ -13,12 +13,10 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = data_sets
-build_property.ProjectDir = /media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = D:\Projects\stock-tools\data-set-tool\data_sets\
 
-[/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/App.axaml]
+[D:/Projects/stock-tools/data-set-tool/data_sets/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/Views/MainWindow.axaml]
+[D:/Projects/stock-tools/data-set-tool/data_sets/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
