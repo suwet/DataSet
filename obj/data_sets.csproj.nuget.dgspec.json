@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\stock-tools\\data-set-tool\\data_sets\\data_sets.csproj": {}
+    "/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/data_sets.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\stock-tools\\data-set-tool\\data_sets\\data_sets.csproj": {
+    "/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/data_sets.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\stock-tools\\data-set-tool\\data_sets\\data_sets.csproj",
+        "projectUniqueName": "/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/data_sets.csproj",
         "projectName": "data_sets",
-        "projectPath": "D:\\Projects\\stock-tools\\data-set-tool\\data_sets\\data_sets.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\stock-tools\\data-set-tool\\data_sets\\obj\\",
+        "projectPath": "/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/data_sets.csproj",
+        "packagesPath": "/home/steve/.nuget/packages/",
+        "outputPath": "/media/steve/0E8CC3AB8CC38C21/Projects/stock-tools/data-set-tool/data_sets/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/steve/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -85,12 +78,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.32, 6.0.32]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.107/RuntimeIdentifierGraph.json"
         }
       }
     }

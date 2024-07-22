@@ -130,7 +130,7 @@ namespace data_sets.Views
                 string input_path = txt_input_path.Text;
                 string output_path = txt_output_path.Text;
                 string cookie = txt_curl_cmd.Text.Trim();
-                cookie = cookie.Replace("cookie","Cookie").Replace("curl","").TrimStart();
+                cookie = cookie.Replace("cookie", "Cookie").Replace("curl", "").TrimStart();
                 string[] readText = File.ReadAllLines(input_path);
                 pgr_curl.Minimum = 0;
                 pgr_curl.Maximum = (double)readText.Length;
@@ -145,11 +145,11 @@ namespace data_sets.Views
                         int startindex = cookie.IndexOf("Cookie:");
                         int toindex = cookie.LastIndexOf("-H");
                         string cookie_value = cookie.Substring(startindex + 7, (toindex - startindex) - 2);
-                        int indexof = cookie_value.IndexOf("-H",90,StringComparison.CurrentCulture);
+                        int indexof = cookie_value.IndexOf("-H", 90, StringComparison.CurrentCulture);
                         cookie_value = cookie_value.Substring(0, indexof - 1);
                         startindex = cookie.IndexOf("https");
                         string url = string.Empty;
-                        if(cookie.StartsWith("\'"))
+                        if (cookie.StartsWith("\'"))
                         {
                             toindex = cookie.IndexOf("\'", 30);
                             url = cookie.Substring(startindex, toindex - startindex);
@@ -220,7 +220,7 @@ namespace data_sets.Views
                 });
             }
         }
-        public void  StartExtractDataClick(object sender, RoutedEventArgs e)
+        public void StartExtractDataClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(input_path.Text) || string.IsNullOrEmpty(output_path.Text))
             {
@@ -235,14 +235,17 @@ namespace data_sets.Views
                 // pe data
                 if (cmb_data_type.SelectedIndex == 0)
                 {
-
+                    Task.Run(async () =>
+                    {
+                        await ExtractPeFinanAsSql(src_path, desc_path);
+                    });
                 }
                 // finan
                 if (cmb_data_type.SelectedIndex == 1)
                 {
                     Task.Run(async () =>
                     {
-                         await ExtractFinanAsSql(src_path, desc_path);
+                        await ExtractFinanAsSql(src_path, desc_path);
                     });
                 }
                 // yeild
@@ -317,6 +320,78 @@ namespace data_sets.Views
             }
             //System.Console.WriteLine(sb.ToString());
             using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(destination_folder, "inser_stock_yeild_lastprice_sql.sql")))
+            {
+                await outputFile.WriteAsync(sb.ToString());
+            }
+        }
+
+        private async Task ExtractPeFinanAsSql(string source_folder, string destination_folder)
+        {
+            string[] filePaths = Directory.GetFiles(source_folder, "*.json",
+                                        SearchOption.TopDirectoryOnly);
+            double prg_inc = 1;
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                pgr_extract.Maximum = (double)filePaths.Length;
+            });
+
+            StringBuilder sb = new StringBuilder();
+            foreach (var filename in filePaths)
+            {
+                // System.Console.WriteLine(filename);
+                Dispatcher.UIThread.Invoke(() =>
+                {
+                    pgr_extract.Value = prg_inc++;
+                });
+
+
+                using (StreamReader reader = new StreamReader(filename))
+                {
+
+                    try
+                    {
+                        string jsonString = reader.ReadToEnd();
+                        if (jsonString.Contains("[{"))
+                        {
+                            var pe_data = JsonConvert.DeserializeObject<List<dynamic>>(jsonString);
+                            if (pe_data != null)
+                            {
+                                foreach (var p_data in pe_data)
+                                {
+                                    const string quote = "\"";
+                                    if (p_data.symbol != "")
+                                    {
+                                        double pe = 0, pbv = 0, bookValuePerShare = 0, dividendYield = 0, marketCap = 0, dividendPayoutRatio = 0;
+                                        //System.Console.WriteLine(stock.symbol);
+                                        double.TryParse(p_data.pe.ToString(), out pe);
+                                        double.TryParse(p_data.pbv.ToString(), out pbv);
+                                        double.TryParse(p_data.bookValuePerShare.ToString(), out bookValuePerShare);
+                                        double.TryParse(p_data.dividendYield.ToString(), out dividendYield);
+                                        double.TryParse(p_data.marketCap.ToString(), out marketCap);
+                                        double.TryParse(p_data.dividendPayoutRatio.ToString(), out dividendPayoutRatio);
+
+
+                                        string insert_xn = @"insert into pe_financial(symbol,year,pe,pbv,bookValuePerShare,dividendYield,marketCap,dividendPayoutRatio)
+                                                    values(" + quote + p_data.symbol + quote + "," + quote + p_data.date + quote + "," + pe + "," + pbv + "," + bookValuePerShare + "," + dividendYield + "," + marketCap + "," + dividendPayoutRatio + ")";
+                                        sb.Append(insert_xn + ";");
+                                    }
+                                    sb.AppendLine();
+                                }
+                            }
+
+                        }
+                    }
+                    catch (System.Exception)
+                    {
+                        System.Console.WriteLine("error at " + filename);
+                        throw;
+                    }
+
+                }
+                await Task.Delay(10);
+            }
+            //System.Console.WriteLine(sb.ToString());
+            using (StreamWriter outputFile = new StreamWriter(System.IO.Path.Combine(destination_folder, "inser_pe_financial_sql.sql")))
             {
                 await outputFile.WriteAsync(sb.ToString());
             }
